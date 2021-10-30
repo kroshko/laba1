@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+int main()
+{
+  setlocale(LC_ALL, "Rus");
+	double n = 0.0, max = 0.0, min = 0.0, sum = 0.0;
+	int i, j;
+	
+	printf(" n= ");
+	scanf_s("%lf", &n);
+	if (n <= 0)
+	{
+		printf("ошибка! количество значений <= 0");
+		return 0;
+	}
+	printf("min= ");
+	scanf_s("%lf", &min);
+	printf("max= ");
+	scanf_s("%lf", &max);
+	if (min > max)
+	{
+		printf("ошибка! min>max \n");
+		return 0;
+	}
+	double* mas1;
+	int* mas2;
+	mas1 = (double*)malloc(n * sizeof(double));
+	mas2 = (int*)malloc(n * sizeof(int));
+	if (mas1 == 0 || mas2 == 0)
+	{
+		printf("ошибка! Массив не создался \n");
+		return 0;
+	}
+	for (i = 0; i < n; i++)
+	{
+		mas1[i] = rand();
+		mas1[i] = (mas1[i] / RAND_MAX) * (max - min) + min;
+		printf("%lf \n", mas1[i]);
+	}
+	for (i = 0; i < n; i++)
+	{
+		mas2[i] = ((mas1[i] - (int)mas1[i]) * 10000);
+		while (mas2[i] % 10 == 0)
+			mas2[i] = mas2[i] / 10;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			if (i == mas2[j])
+			{
+				sum = sum - mas1[i];
+				mas1[j] = 0.0;
+			}
+		}
+	}
+	for (int i = 0; i < n; i++)
+	{
+		sum = sum + mas1[i];
+	}
+	printf("Сумма = %lf", sum);
+	free(mas2);
+	free(mas1);
+	return 0;
+}
